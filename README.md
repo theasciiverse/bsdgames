@@ -21,9 +21,9 @@ sgid. Scorefiles in /var/lib/bsdgames are owned and writable by the
 users group. For security, each game validates scores when loading.
 Saved game files are also validated and will not cause a crash.
 
-If you find bugs, report them on the github
-[project](https://github.com/msharov/bsd-games)
-[bugtracker](https://github.com/msharov/bsd-games/issues).
+If you find bugs, report them on the SourceForge
+[project](https://sourceforge.net/projects/bsd-games)
+[bugtracker](https://sourceforge.net/p/bsd-games/tickets).
 
 ## Included
 
@@ -67,4 +67,4 @@ elsewhere as seprate projects.
 * fortune:	[https://ibiblio.org/pub/linux/games/amusements/fortune/](https://ibiblio.org/pub/linux/games/amusements/fortune/)
 * primes:	[http://primesieve.org/](http://primesieve.org/)
 * rogue:	[http://coredumpcentral.org/](http://coredumpcentral.org/)
-* hack:		[https://www.nethack.org](https://www.nethack.org), [https://github.com/msharov/hack](https://github.com/msharov/hack)
+* hack:		[https://www.nethack.org](https://www.nethack.org)
