@@ -4,6 +4,8 @@
 #include "../config.h"
 #if __has_include(<sys/endian.h>)
     #include <sys/endian.h>
+#elif __has_include(<machine/endian.h>)
+    #include <machine/endian.h>
 #else
     #include <endian.h>
 #endif
