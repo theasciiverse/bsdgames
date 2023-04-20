@@ -8,7 +8,7 @@
 enum {
     C_AIRPORT	= '=',
     C_LINE	= '+',
-    C_BACKROUND	= '.',
+    C_BACKGROUND	= '.',
     C_BEACON	= '*',
     C_CREDIT	= '*'
 };
@@ -82,11 +82,11 @@ static void draw_radar (void)
 {
     // Draw radar screen with map
     werase (_wradar);
-    wattr_set (_wradar, A_NORMAL, color_RadarBackground, NULL);
+    wattr_set (_wradar, A_BOLD, color_RadarBackground, NULL);
     box (_wradar, 0, 0);
     for (unsigned i = 1; i < _sp->height-1u; ++i)
 	for (unsigned j = 1; j < _sp->width-1u; ++j)
-	    mvwaddch (_wradar, i, j*2, C_BACKROUND);
+	    mvwaddch (_wradar, i, j*2, C_BACKGROUND);
     wcolor_set (_wradar, color_Lines, NULL);
     for (unsigned i = 0; i < _sp->num_lines; ++i)
 	draw_line(_wradar, _sp->line[i].p1.x, _sp->line[i].p1.y, _sp->line[i].p2.x, _sp->line[i].p2.y, C_LINE);
