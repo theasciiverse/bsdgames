@@ -54,6 +54,8 @@ int mkpath (const char* path, mode_t mode)
 		return -1;
 	}
 	*pbe++ = *path;
+	if ((size_t)(pbe - pbuf) >= sizeof(pbuf)-1)
+	    return ENAMETOOLONG;
     } while (*path++);
     return 0;
 }
