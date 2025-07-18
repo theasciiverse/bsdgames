@@ -279,7 +279,7 @@ static bool do_shoot (const uint8_t* path, uint8_t pathsz)
     if (!--cave.arrows) {
 	printf ("\nYou turn and look at your quiver, and realize with a sinking feeling\n"
 		"that you've just shot your last arrow (figuratively, too). Sensing this\n"
-		"with its psychic powers, the evil Wumpus rampagees through the cave, finds\n"
+		"with its psychic powers, the evil Wumpus rampages through the cave, finds\n"
 		"you, and with a mighty *ROAR* eats you alive!\n");
 	return true;
     }
