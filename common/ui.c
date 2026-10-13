@@ -80,8 +80,34 @@ void initialize_curses (void)
 
 void init_pairs (const struct color_pair* cps, size_t ncps)
 {
-    for (unsigned i = 0; i < ncps; ++i)
-	init_pair (i+1, cps[i].fg, cps[i].bg);
+    for (unsigned i = 0; i < ncps; ++i) {
+	short fg = cps[i].fg, bg = cps[i].bg;
+	if (fg == COLOR_GREY)
+	    fg = COLORS >= 16 ? 8 : COLOR_WHITE;
+	if (bg == COLOR_GREY)
+	    bg = COLORS >= 16 ? 8 : COLOR_WHITE;
+	init_pair (i+1, fg, bg);
+    }
+}
+
+// Where an h by w block goes to sit in the middle of the screen, or at
+// its top left corner when the screen is smaller than the block.
+void centered_origin (unsigned h, unsigned w, int* y, int* x)
+{
+    *y = LINES > (int) h ? (LINES - (int) h)/2 : 0;
+    *x = COLS > (int) w ? (COLS - (int) w)/2 : 0;
+}
+
+// A layout of fixed lines under a scrolling message area: the messages
+// get the lines left over, at most maxmsg, and the whole sits in the
+// middle of the screen with its top at *y. Returns the message lines.
+unsigned centered_layout (unsigned fixed, unsigned maxmsg, int* y)
+{
+    unsigned msg = LINES > (int) fixed ? LINES - fixed : 0;
+    if (msg > maxmsg)
+	msg = maxmsg;
+    *y = LINES > (int)(fixed+msg) ? (LINES - (int)(fixed+msg))/2 : 0;
+    return msg;
 }
 
 void erase_window (WINDOW* w, short color)

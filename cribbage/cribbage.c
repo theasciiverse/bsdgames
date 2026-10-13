@@ -26,7 +26,8 @@ enum {
     WBOARD_COLS	= BLINE_LENGTH+4,
     WTABLE_LINES= 6,
     WTABLE_COLS	= WBOARD_COLS,
-    WMSG_COLS	= WBOARD_COLS
+    WMSG_COLS	= WBOARD_COLS,
+    WMSG_MAXLINES= 8	// more and the board drops to the bottom of a tall screen
 };
 enum {
     color_None,
@@ -514,11 +515,13 @@ static void create_windows (void)
 	{ COLOR_RED,	COLOR_CYAN	}	// color_SelectedRedSuit
     };
     init_pairs (ArrayBlock (c_Pairs));
-    _wboard = newwin (WBOARD_LINES, WBOARD_COLS, LINES-WBOARD_LINES, (COLS-WBOARD_COLS)/2);
+    int y;
+    unsigned msgl = centered_layout (WTABLE_LINES+WBOARD_LINES, WMSG_MAXLINES, &y);
+    _wboard = newwin (WBOARD_LINES, WBOARD_COLS, y+msgl+WTABLE_LINES, (COLS-WBOARD_COLS)/2);
     wbkgdset (_wboard, A_BOLD| COLOR_PAIR(color_Board));
     _wtable = newwin (WTABLE_LINES, WTABLE_COLS, getbegy(_wboard)-WTABLE_LINES, (COLS-WTABLE_COLS)/2);
     keypad (_wtable, true);
-    _wmsg = newwin (getbegy(_wtable), WMSG_COLS, 0, (COLS-WMSG_COLS)/2);
+    _wmsg = newwin (msgl, WMSG_COLS, y, (COLS-WMSG_COLS)/2);
     scrollok (_wmsg, true);
     wmove (_wmsg, getmaxy(_wmsg)-1, 0);
 }

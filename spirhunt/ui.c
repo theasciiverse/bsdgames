@@ -28,6 +28,7 @@ enum {
     GALAXY_VIEW_LINES = NQUADS,
     PANEL_COLS	= 77,
     PANEL_LINES	= QUADRANT_VIEW_LINES+2,
+    MSG_MAXLINES= 8,
 };
 
 //}}}-------------------------------------------------------------------
@@ -54,7 +55,7 @@ static void draw_ship_info (void);
 void create_windows (void)
 {
     static const struct color_pair c_Pairs[] = {
-	{ COLOR_BLACK,	COLOR_BLACK	},	// color_Space
+	{ COLOR_GREY,	COLOR_BLACK	},	// color_Space
 	{ COLOR_WHITE,	COLOR_BLUE	},	// color_Panel
 	{ COLOR_GREEN,	COLOR_BLUE	},	// color_PanelGreen
 	{ COLOR_YELLOW,	COLOR_BLUE	},	// color_PanelYellow
@@ -77,13 +78,15 @@ void create_windows (void)
     // The panel encloses the scans and the info
     if (_wpanel)
 	delwin (_wpanel);
-    _wpanel = newwin (PANEL_LINES, PANEL_COLS, LINES-PANEL_LINES, (COLS-PANEL_COLS)/2);
+    int y;
+    unsigned msgl = centered_layout (PANEL_LINES, MSG_MAXLINES, &y);
+    _wpanel = newwin (PANEL_LINES, PANEL_COLS, y+msgl, (COLS-PANEL_COLS)/2);
     leaveok (_wpanel, true);
 
     // Scrolling window for messages
     if (_wmsg)
 	delwin (_wmsg);
-    _wmsg = newwin (getbegy(_wpanel), PANEL_COLS, 0, getbegx(_wpanel));
+    _wmsg = newwin (msgl, PANEL_COLS, y, getbegx(_wpanel));
     leaveok (_wmsg, true);
     scrollok (_wmsg, true);
     keypad (_wmsg, true);

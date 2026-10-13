@@ -73,9 +73,11 @@ int main (int argc, char* const argv[])
 	}
     }
     initialize_curses();
-    _wprompt = newwin (PW_LINES, PW_COLS, LINES-PW_LINES, 0);
+    int y, x;
+    centered_origin (GW_LINES+PW_LINES, GW_COLS, &y, &x);
+    _wprompt = newwin (PW_LINES, PW_COLS, y+GW_LINES, x);
     keypad (_wprompt, true);
-    _wgame = newwin (GW_LINES, GW_COLS, LINES-PW_LINES-GW_LINES, 0);
+    _wgame = newwin (GW_LINES, GW_COLS, y, x);
     static const struct color_pair c_Pairs[] = {
 	{ COLOR_BLUE,	COLOR_BLACK	},	// color_UnguessedLetter
 	{ COLOR_RED,	COLOR_BLACK	},	// color_WrongLetter

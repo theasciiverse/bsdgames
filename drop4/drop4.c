@@ -221,7 +221,7 @@ int main (int argc, const char* const* argv)
 	{ COLOR_DEFAULT,COLOR_DEFAULT	},	// color_Default
 	{ COLOR_DEFAULT,COLOR_DEFAULT	},	// color_Background
 	{ COLOR_CYAN,	COLOR_BLACK	},	// color_Text
-	{ COLOR_BLACK,	COLOR_DEFAULT	},	// color_HelpText
+	{ COLOR_GREY,	COLOR_DEFAULT	},	// color_HelpText
 	{ COLOR_MAGENTA,COLOR_BLACK	},	// color_Borders
 	{ COLOR_CYAN,	COLOR_BLACK	}	// color_Shapes
     };
@@ -405,7 +405,17 @@ static void scr_create_window (void)
 {
     if (_win)
 	delwin (_win);
-    _win = newwin (S_ROWS, S_COLS, LINES-S_ROWS, 0);
+    // Centre what is drawn, from the bars beside the board to the end of
+    // the score panel, keeping the window on the screen
+    enum { DRAWN_L = BOARD_COL-3, DRAWN_R = SCORE_COL+SCORE_COLS };
+    int y, x;
+    centered_origin (S_ROWS, DRAWN_R-DRAWN_L, &y, &x);
+    x -= DRAWN_L;
+    if (x > COLS-S_COLS)
+	x = COLS-S_COLS;
+    if (x < 0)
+	x = 0;
+    _win = newwin (S_ROWS, S_COLS, y, x);
 }
 
 static void scr_drawbar (unsigned y, unsigned x, unsigned h, unsigned w)

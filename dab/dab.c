@@ -235,7 +235,9 @@ static void create_field_window (void)
     if (_wfield)
 	delwin (_wfield);
     unsigned w = _fw*2+1;
-    _wfield = newwin (w, w, LINES-w-1, (S_COLS-w)/2);
+    int y, x;
+    centered_origin (w+1, w, &y, &x);	// the field, and the status line under it
+    _wfield = newwin (w, w, y, x);
     keypad (_wfield, true);
 }
 
@@ -280,11 +282,11 @@ static void draw_field (void)
     // Draw stats
     unsigned winner = have_winner();
     if (!winner)
-	mvprintw (LINES-1, S_COLS/2-15, "Level %u: human %u, computer %u", _fw-2, _owned[HUMAN], _owned[COMPUTER]);
+	mvprintw (getbegy(_wfield)+getmaxy(_wfield), COLS/2-15, "Level %u: human %u, computer %u", _fw-2, _owned[HUMAN], _owned[COMPUTER]);
     else {
 	static const char c_Name[NPLAYERS][4] = {"You","I"};
 	unsigned player = winner-1;
-	mvprintw (LINES-1, S_COLS/2-10, "Level %u: %s won %u-%u!", _fw-2, c_Name[player], _owned[player], _owned[!player]);
+	mvprintw (getbegy(_wfield)+getmaxy(_wfield), COLS/2-10, "Level %u: %s won %u-%u!", _fw-2, c_Name[player], _owned[player], _owned[!player]);
     }
     wnoutrefresh (stdscr);
     wrefresh (_wfield);

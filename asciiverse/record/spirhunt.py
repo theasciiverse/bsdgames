@@ -5,9 +5,11 @@ nearest quadrant the galaxy map shows pirates in, or to an unscanned one
 to look. It quits with Q after SECONDS.
 
 Panel layout at 100x30 (ui.c create_windows): the sector scan's cells are
-at row 19 + y, column 15 + 2x; the galaxy map's quadrant x, y has its
-starbase mark at row 19 + y, column 37 + 3x and its pirate count just
-right of it; the current quadrant is drawn reversed."""
+at row Y0 + y, column 15 + 2x, where Y0 is the row of the status panel's
+"Condition" line (the layout is centred, so Y0 is found on screen); the
+galaxy map's quadrant x, y has its starbase mark at row Y0 + y, column
+37 + 3x and its pirate count just right of it; the current quadrant is
+drawn reversed; the command line is row Y0 + 9."""
 import random
 
 from rec import Rec, ENTER
@@ -19,6 +21,9 @@ r.wait_for("PIRATE HUNT")
 r.pump(2.5)
 
 
+Y0 = next(i for i, l in enumerate(r.rows()) if "Condition" in l)
+
+
 def typed(text, pause=1.4):
     for ch in text:
         r.key(ch, 0.09)
@@ -27,14 +32,14 @@ def typed(text, pause=1.4):
 
 def prompt():
     """The question on the command line, if one is waiting."""
-    return r.rows()[28][36:].strip()
+    return r.rows()[Y0 + 9][36:].strip()
 
 
 def pirates_here():
     out = []
     for y in range(10):
         for x in range(10):
-            if r.rows()[19 + y][15 + 2 * x] == "P":
+            if r.rows()[Y0 + y][15 + 2 * x] == "P":
                 out.append((x, y))
     return out
 
@@ -45,10 +50,10 @@ def galaxy():
     for y in range(8):
         for x in range(8):
             col = 37 + 3 * x
-            cell = r.screen.buffer[19 + y][col]
+            cell = r.screen.buffer[Y0 + y][col]
             if cell.reverse:
                 here = (x, y)
-            n = r.rows()[19 + y][col + 1]
+            n = r.rows()[Y0 + y][col + 1]
             seen[(x, y)] = int(n) if n.isdigit() else (0 if n == "." else None)
     return here, seen
 

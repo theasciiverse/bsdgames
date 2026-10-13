@@ -25,6 +25,7 @@ enum {
     SCREEN_HEIGHT	= 24,
     FIELD_HEIGHT	= SCREEN_HEIGHT,
     HELP_WIDTH		= 20,
+    HELP_TEXT_WIDTH	= 13,	// the widest line of help, " *  junk heap"
     FIELD_WIDTH		= SCREEN_WIDTH-HELP_WIDTH,
 };
 enum {
@@ -135,8 +136,14 @@ int main (void)
 
 static void initialize_windows (void)
 {
-    _whelp = newwin (FIELD_HEIGHT, HELP_WIDTH, LINES-FIELD_HEIGHT, FIELD_WIDTH);
-    _wgame = newwin (FIELD_HEIGHT, FIELD_WIDTH, LINES-FIELD_HEIGHT, 0);
+    // Centre what is drawn, the field and the help text, keeping the
+    // help window on the screen
+    int y, x;
+    centered_origin (FIELD_HEIGHT, FIELD_WIDTH+HELP_TEXT_WIDTH, &y, &x);
+    if (x > COLS-(FIELD_WIDTH+HELP_WIDTH))
+	x = COLS > FIELD_WIDTH+HELP_WIDTH ? COLS-(FIELD_WIDTH+HELP_WIDTH) : 0;
+    _whelp = newwin (FIELD_HEIGHT, HELP_WIDTH, y, x+FIELD_WIDTH);
+    _wgame = newwin (FIELD_HEIGHT, FIELD_WIDTH, y, x);
     scrollok (_wgame, false);
     keypad (_wgame, true);
     static const struct color_pair c_Pairs[] = {
@@ -144,7 +151,7 @@ static void initialize_windows (void)
 	{ COLOR_YELLOW,	COLOR_BLACK	},	// color_Player
 	{ COLOR_CYAN,	COLOR_BLACK	},	// color_Teleport
 	{ COLOR_RED,	COLOR_BLACK	},	// color_Robots
-	{ COLOR_BLACK,	COLOR_BLACK	},	// color_Heaps
+	{ COLOR_GREY,	COLOR_BLACK	},	// color_Heaps
     };
     init_pairs (ArrayBlock (c_Pairs));
     wbkgdset (_wgame, COLOR_PAIR(color_Field));

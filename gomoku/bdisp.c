@@ -22,7 +22,7 @@ void initialize_field_window (void)
 	delwin (_w);
     else {
 	static const struct color_pair c_Pairs[] = {
-	    { COLOR_BLACK,	COLOR_BLACK	},	// color_Field
+	    { COLOR_GREY,	COLOR_BLACK	},	// color_Field
 	    { COLOR_CYAN,	COLOR_BLACK	},	// color_Human
 	    { COLOR_MAGENTA,	COLOR_BLACK	},	// color_Computer
 	    { COLOR_BLACK,	COLOR_CYAN	},	// color_HumanCursor
@@ -30,7 +30,9 @@ void initialize_field_window (void)
 	};
 	init_pairs (ArrayBlock(c_Pairs));
     }
-    _w = newwin (BSZ2, BSZ2*2-1, LINES-BSZ2, (COLS-(BSZ2*2-1))/2);
+    int y, x;
+    centered_origin (BSZ2, BSZ2*2-1, &y, &x);
+    _w = newwin (BSZ2, BSZ2*2-1, y, x);
     keypad (_w, true);
     wbkgdset (_w, COLOR_PAIR(color_Field));
 }

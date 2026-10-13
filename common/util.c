@@ -61,13 +61,15 @@ int mkpath (const char* path, mode_t mode)
 }
 
 // Returns username or something to call the player. Never fails.
+// LOGNAME and USER come first, so a player can choose the name the score
+// tables show; getlogin reads the login from the system and ignores them.
 const char* player_name (void)
 {
-    const char* un = getlogin();
-    if (!un)
-	un = getenv ("LOGNAME");
-    if (!un)
+    const char* un = getenv ("LOGNAME");
+    if (!un || !*un)
 	un = getenv ("USER");
+    if (!un || !*un)
+	un = getlogin();
     if (!un)
 	un = "player";
     return un;

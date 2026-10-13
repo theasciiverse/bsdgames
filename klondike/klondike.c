@@ -74,8 +74,10 @@ static void draw_window (void);
 
 static void initialize_window (void)
 {
+    int y, x;
+    centered_origin (WLINES, WCOLS, &y, &x);
     if (_w) {
-	mvwin (_w, LINES-WLINES, (COLS-WCOLS)/2);
+	mvwin (_w, y, x);
 	erase();
 	refresh();
 	return;
@@ -88,7 +90,7 @@ static void initialize_window (void)
 	{ COLOR_RED,	COLOR_CYAN	}	// color_SelectedRedSuit
     };
     init_pairs (ArrayBlock (c_Pairs));
-    _w = newwin (WLINES, WCOLS, LINES-WLINES, (COLS-WCOLS)/2);
+    _w = newwin (WLINES, WCOLS, y, x);
     keypad (_w, true);
 }
 

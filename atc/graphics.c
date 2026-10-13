@@ -42,16 +42,16 @@ static void draw_command_box (void);
 void init_gr (void)
 {
     initialize_curses();
-    unsigned radarh = _sp->height, radarw = _sp->width*2-1,
-	scry = LINES - (MAXPLANES+1 + INPUT_LINES),
-	scrx = (COLS - (radarw + PLANE_COLS))/2;
+    unsigned radarh = _sp->height, radarw = _sp->width*2-1;
+    int scry, scrx;
+    centered_origin (max_u (radarh, MAXPLANES+1) + INPUT_LINES, radarw+1+PLANE_COLS, &scry, &scrx);
     _wradar = newwin (radarh, radarw, scry, scrx);
     _wplanes = newwin (MAXPLANES+1, PLANE_COLS, scry, scrx+radarw+1);
     _winput = newwin (INPUT_LINES, radarw, scry+radarh, scrx);
     _wcredit = newwin (INPUT_LINES, PLANE_COLS, scry+radarh, scrx+radarw+1);
     keypad (_winput, true);
     static const struct color_pair c_Pairs[] = {
-	{ COLOR_BLACK,	COLOR_BLACK	},	// color_RadarBackground
+	{ COLOR_GREY,	COLOR_BLACK	},	// color_RadarBackground
 	{ COLOR_BLUE,	COLOR_BLACK	},	// color_Lines
 	{ COLOR_WHITE,	COLOR_BLACK	},	// color_Planes
 	{ COLOR_YELLOW,	COLOR_BLACK	},	// color_Airports

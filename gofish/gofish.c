@@ -20,7 +20,8 @@ static enum EPlayer OTHER (enum EPlayer p) { return 1-p; }
 
 enum {
     PANEL_LINES = 4,
-    PANEL_COLS = 80
+    PANEL_COLS = 80,
+    MSG_MAXLINES = 18	// the instructions fit
 };
 enum {
     color_None,
@@ -93,14 +94,16 @@ static void initialize_windows (void)
 	};
 	init_pairs (ArrayBlock (c_Pairs));
     }
-    _wmsg = newwin (LINES-PANEL_LINES, PANEL_COLS, 0, 0);
+    int x = COLS > PANEL_COLS ? (COLS-PANEL_COLS)/2 : 0, y;
+    unsigned msgl = centered_layout (PANEL_LINES, MSG_MAXLINES, &y);
+    _wmsg = newwin (msgl, PANEL_COLS, y, x);
     scrollok (_wmsg, true);
     idlok (_wmsg, true);
     keypad (_wmsg, true);
     wmove (_wmsg, getmaxy(_wmsg)-1, 0);
     if (_wpanel)
 	delwin (_wpanel);
-    _wpanel = newwin (PANEL_LINES, PANEL_COLS, LINES-PANEL_LINES, 0);
+    _wpanel = newwin (PANEL_LINES, PANEL_COLS, y+msgl, x);
     wbkgdset (_wpanel, COLOR_PAIR(color_Panel));
 }
 

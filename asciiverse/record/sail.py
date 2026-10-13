@@ -62,7 +62,9 @@ def turn_no():
 
 
 def last_line():
-    lines = [l.strip() for l in r.rows()[:13] if l.strip()]
+    rows = r.rows()                 # messages end above the command line,
+    top = next((i for i, l in enumerate(rows) if "Class" in l), 13)  # over the map
+    lines = [l.strip() for l in rows[:top - 1] if l.strip()]
     return lines[-1] if lines else ""
 
 

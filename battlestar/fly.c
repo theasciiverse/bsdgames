@@ -27,10 +27,12 @@ static void create_space_window (void);
 
 static void create_space_window (void)
 {
+    int y, x;
+    centered_origin (24, 80, &y, &x);
     if (_w)
-	mvwin (_w, LINES-24, 0);
+	mvwin (_w, y, x);
     else {
-	_w = newwin (24, 80, LINES-24, 0);
+	_w = newwin (24, 80, y, x);
 	keypad (_w, true);
     }
 }

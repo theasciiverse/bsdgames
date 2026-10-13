@@ -29,6 +29,26 @@ and caesar because they are not games.
   leaving them black on black in reverse; and `wstandend` then dropped the
   colour for the planes after them. Marked planes now just turn reverse
   video on and off (`atc/graphics.c`).
+- **Centred on the screen.** Most games sat at the bottom of the terminal
+  (their windows were placed at `LINES` minus their height) and several
+  at its left edge. They now sit in the middle, through two helpers in
+  `common/ui.c`: `centered_origin` for a fixed block (gomoku, klondike,
+  dab with its status line, drop4, robots, hangman, atc and battlestar's
+  space fight), and `centered_layout` for a board under a scrolling
+  message area, which now gets at most a set number of lines so the
+  whole can be centred (cribbage and spirhunt 8, sail 10, gofish 18, so
+  its instructions fit). drop4 and robots centre what they draw, not
+  their wider 80-column windows. A terminal smaller than a game shows its
+  top left part, as before.
+- **Grey that shows everywhere.** gomoku's grid, robots' junk heaps,
+  spirhunt's space, drop4's help text and atc's radar background were
+  black with A_BOLD on black, which only terminals that brighten bold
+  text show as grey; elsewhere, the website's preview player included,
+  they were invisible. They use a new `COLOR_GREY`: bright black where
+  the terminal has 16 colours, white otherwise.
+- **The name on score tables.** `player_name` now takes `LOGNAME` and
+  `USER` before `getlogin`, which reads the login from the system and
+  ignores them, so a player can choose the name the tables show.
 
 ## Packaging (new files)
 

@@ -16,7 +16,7 @@ ROWS = 30
 
 r = Rec("dab", "Dots and Boxes", args=[str(LEVEL)])
 r.pump(1.0)
-TOP, LEFT = ROWS - W - 1, (80 - W) // 2   # create_field_window: LINES-w-1, (S_COLS-w)/2
+TOP, LEFT = (ROWS - (W + 1)) // 2, (100 - W) // 2   # create_field_window: centered_origin (w+1, w)
 
 
 def width(l):
@@ -101,4 +101,10 @@ while r.elapsed() < SECONDS:
     r.key(" ", 0.1)
     settle()
 
-r.finish(b"q")
+# the computer's turn ends with flushinp(), which eats a q typed while it
+# thinks, so keep asking until the game has gone
+for _ in range(10):
+    r.key(b"q", 0)
+    if not r.pump(0.8):
+        break
+r.finish(None)

@@ -11,7 +11,8 @@ import time
 from rec import Rec
 
 ROUTE = ["right", "right", "down", "right", "ahead", "right", "right"]
-TOP, ROW, COL = 30 - 24, 12, 40      # fly.c: the 80x24 space window, its sight
+TOP, LEFT = (30 - 24) // 2, (100 - 80) // 2   # fly.c: the 80x24 space window, centered_origin
+ROW, COL = 12, 40                    # its sight, in the window
 
 r = Rec("battlestar", "Battlestar")
 r.wait_for("stateroom")
@@ -26,10 +27,10 @@ def say(cmd, read=1.3):
 
 def drenian():
     """(line, column) of the Drenian's centre in the space window."""
-    for y in range(TOP, 30):
+    for y in range(TOP, TOP + 24):
         x = r.rows()[y].find("/-\\")
         if x >= 0:
-            return y - TOP, x + 1
+            return y - TOP, x + 1 - LEFT
     return None
 
 

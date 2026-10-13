@@ -34,11 +34,12 @@ r.pump(2.5)                     # the rules scroll by first
 def hand():
     """{rank: count} from the panel, ranks as the game names them."""
     rows = r.rows()
-    top = next(y for y in range(len(rows) - 4, len(rows)) if rows[y].startswith("Cards:"))
-    first = rows[top][:60]
+    top = next(y for y in range(len(rows)) if "Cards:" in rows[y])
+    left = rows[top].find("Cards:")       # the panel is centred across
+    first = rows[top][:left + 60]
     out = {}
-    for m in re.finditer(r"(10|[A2-9JQK])", first[7:]):
-        col = 7 + m.start()
+    for m in re.finditer(r"(10|[A2-9JQK])", first[left + 7:]):
+        col = left + 7 + m.start()
         name = m.group(1)
         out[name] = sum(1 for y in range(top, top + 3) if rows[y][col:col + len(name)] == name)
     return out

@@ -35,6 +35,7 @@ enum {
     SLOT_T	= VIEW_T,
     SLOT_L	= VIEW_R+1,
     SLOT_X	= 3,
+    SCROLL_MAXLINES = 10,	// messages above the command line
     SLOT_Y	= VIEW_Y,
     SLOT_B	= VIEW_B,
     SLOT_R	= SLOT_L+SLOT_X-1
@@ -93,12 +94,14 @@ void initscreen(void)
 
     unsigned scrw = min_u (COLS, MAX_COLS);
     unsigned scrx = (COLS-scrw)/2;
-    _stat_w = newwin (STAT_Y, STAT_X, LINES-STAT_Y, scrx+scrw-STAT_X);
+    int scry;
+    unsigned msgl = centered_layout (1+STAT_Y, SCROLL_MAXLINES, &scry);
+    _stat_w = newwin (STAT_Y, STAT_X, scry+msgl+1, scrx+scrw-STAT_X);
     _view_box_w = newwin (getmaxy(_stat_w), scrw-getmaxx(_stat_w), getbegy(_stat_w), scrx);
     _view_w = newwin (getmaxy(_view_box_w)-2, getmaxx(_view_box_w)-2, getbegy(_view_box_w)+1, getbegx(_view_box_w)+1);
     _slot_w = newwin (getmaxy(_view_w), SLOT_X, getbegy(_view_w), getbegx(_view_w)+getmaxx(_view_w)-SLOT_X);
     _cmd_w = newwin (1, scrw, getbegy(_view_box_w)-1, scrx);
-    _scroll_w = newwin (getbegy(_cmd_w), scrw, 0, scrx);
+    _scroll_w = newwin (msgl, scrw, scry, scrx);
 
     wbkgdset (_view_box_w, COLOR_PAIR(color_Sea));
     wbkgdset (_view_w, COLOR_PAIR(color_Sea));
@@ -545,9 +548,11 @@ struct ScenarioSelector select_scenario (void)
     // |      |  lload  |  rload  |
     // +--------------------------+
     //
-    WINDOW* wtitle = newwin (9, ww, LINES-wh, (COLS-ww)/2);
+    int wy, wx;
+    centered_origin (wh, ww, &wy, &wx);
+    WINDOW* wtitle = newwin (9, ww, wy, wx);
     WINDOW* wscen = newwin (wh-getmaxy(wtitle), 40, getbegy(wtitle)+getmaxy(wtitle), getbegx(wtitle));
-    WINDOW* wlload = newwin (3, (ww-getmaxx(wscen))/2, LINES-3, getbegx(wscen)+getmaxx(wscen));
+    WINDOW* wlload = newwin (3, (ww-getmaxx(wscen))/2, wy+wh-3, getbegx(wscen)+getmaxx(wscen));
     WINDOW* wrload = newwin (getmaxy(wlload), getmaxx(wlload), getbegy(wlload), getbegx(wlload)+getmaxx(wlload));
     WINDOW* wship = newwin (getmaxy(wscen)-getmaxy(wlload), ww-getmaxx(wscen), getbegy(wscen), getbegx(wlload));
     wbkgdset (wtitle, COLOR_PAIR(1));

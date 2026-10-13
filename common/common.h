@@ -56,6 +56,10 @@
 
 // Curses transparent color
 enum { COLOR_DEFAULT = -1 };
+// Dim grey, for grids and backgrounds: bright black where the terminal has
+// 16 colours, else white. Black with A_BOLD shows grey only on terminals
+// that brighten bold text; elsewhere it is black on black.
+enum { COLOR_GREY = -2 };
 // Escape key
 enum {
     KEY_ESCAPE = '\033',
@@ -111,6 +115,8 @@ void initialize_curses (void);
 void cleanup_curses (void);
 void init_pairs (const struct color_pair* cps, size_t ncps);
 void erase_window (WINDOW* w, short color);
+void centered_origin (unsigned h, unsigned w, int* y, int* x);
+unsigned centered_layout (unsigned fixed, unsigned maxmsg, int* y);
 void mvwadd_wchw (WINDOW* w, int l, int c, wchar_t wch, attr_t a, short color);
 wchar_t get_card_suit_char (enum CardSuit suit);
 

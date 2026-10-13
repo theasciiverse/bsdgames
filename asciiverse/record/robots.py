@@ -21,12 +21,13 @@ r.pump(1.5)
 def field():
     """(player, robots, heaps) in field coordinates."""
     rows = r.rows()
-    top = len(rows) - 24        # the window sits at the bottom of the screen
+    top = (len(rows) - 24) // 2             # the 80x24 block is centred:
+    left = (len(rows[0]) - 80) // 2         # robots.c, centered_origin
     me, robots, heaps = None, [], set()
     for y in range(FH):
         line = rows[top + 1 + y]
         for x in range(FW):
-            c = line[1 + x]
+            c = line[left + 1 + x]
             if c == "@":
                 me = (x, y)
             elif c == "+":
