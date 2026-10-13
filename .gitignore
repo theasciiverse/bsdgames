@@ -2,3 +2,6 @@
 config.status
 Config.mk
 config.h
+out/
+stage/
+dist/

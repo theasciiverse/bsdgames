@@ -1,0 +1,18 @@
+# One catalog title per game: id, then the program built in <program>/.
+# Left out, by David's curation (2026-10-13): adventure (the catalog's
+# Colossal Cave is the same game), arithmetic and caesar (not games).
+atc         atc
+battlestar  battlestar
+cribbage    cribbage
+dab         dab
+drop4       drop4
+gofish      gofish
+gomoku      gomoku
+hangman     hangman
+klondike    klondike
+robots      robots
+sail        sail
+snake       snake
+spirhunt    spirhunt
+worm        worm
+wump        wump
