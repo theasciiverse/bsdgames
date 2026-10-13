@@ -36,6 +36,9 @@ and caesar because they are not games.
   `5587667caa20c4891390c2d42dbb4d5c4c3f41bee77af1457ece3ba23fb859cc`),
   with SCOWL's copyright notice beside it. Many systems have no
   `/usr/share/dict/words`; av starts hangman with `-d words`.
+- `asciiverse/record/`: the preview recorder (`rec.py`, from New BSD Games')
+  and one driver per game that plays it for its cast in
+  `asciiverse/casts/`, reading the screen through pyte.
 - `.github/workflows/release.yml`: static Linux builds in Alpine (x86_64,
   aarch64) and macOS (x86_64, arm64), plus SHA256SUMS, on a tag. No
   Windows build yet.
