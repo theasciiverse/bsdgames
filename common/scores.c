@@ -10,8 +10,29 @@ struct ScorefileHeader {
     uint16_t	sum;
 };
 
+// The system score file when the player can write to it, else the
+// player's own one in the XDG data folder, bsdgames/<name>.scores.
+// Installed without root (by av, or from an archive) there is no system
+// score file, and no scores were ever kept.
+static const char* score_file_path (const char* filename, char* buf, size_t bufsz, bool create)
+{
+    if (0 == access (filename, W_OK))
+	return filename;
+    const char* base = strrchr (filename, '/');
+    base = base ? base+1 : filename;
+    size_t dirlen = strlen (player_saved_game_dir (buf, bufsz));
+    snprintf (&buf[dirlen], bufsz-dirlen, "/bsdgames");
+    if (create)
+	mkpath (buf, 0755);
+    dirlen = strlen (buf);
+    snprintf (&buf[dirlen], bufsz-dirlen, "/%s", base);
+    return buf;
+}
+
 bool read_score_file (const char* filename, const char* magic, void* scores, size_t scoresSize)
 {
+    char pathbuf [PATH_MAX];
+    filename = score_file_path (filename, pathbuf, sizeof(pathbuf), false);
     int fd = open (filename, O_RDONLY);
     if (fd < 0)
 	return false;
@@ -32,7 +53,9 @@ bool read_score_file (const char* filename, const char* magic, void* scores, siz
 
 void write_score_file (const char* filename, const char* magic, const void* scores, size_t scoresSize)
 {
-    int fd = open (filename, O_WRONLY);
+    char pathbuf [PATH_MAX];
+    filename = score_file_path (filename, pathbuf, sizeof(pathbuf), true);
+    int fd = open (filename, O_WRONLY| O_CREAT, 0644);
     if (fd < 0)
 	return;
     struct ScorefileHeader header;
