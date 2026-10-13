@@ -4,6 +4,7 @@
 #include "../config.h"
 #include <signal.h>
 #include <locale.h>
+#include <langinfo.h>
 
 //----------------------------------------------------------------------
 
@@ -56,8 +57,7 @@ void initialize_curses (void)
     // Setup locale and check whether it has UTF8 output support
     #if NCURSES_WIDECHAR
 	setlocale (LC_ALL, "");
-	const char* lang = getenv ("LANG");
-	if (lang && strstr (lang, "utf8"))
+	if (0 == strcmp (nl_langinfo (CODESET), "UTF-8"))
 	    g_has_utf8 = true;
     #endif
 

@@ -19,6 +19,16 @@ and caesar because they are not games.
   so an install without root kept no scores at all. When the system file
   is not writable, each game now keeps its own in the XDG data folder,
   `bsdgames/<game>.scores` (`common/scores.c`).
+- **Card suits in UTF-8 terminals.** The suit symbols were shown only when
+  `LANG` contained a lower-case `utf8`, so the usual `C.UTF-8` and
+  `en_US.UTF-8` got letters (S, H, D, C) in klondike and cribbage. The
+  check now asks the locale for its character set (`nl_langinfo`), which
+  also honours `LC_ALL` and `LC_CTYPE` (`common/ui.c`).
+- **atc's planes keep their colour.** Marked planes, which every new
+  plane is, were drawn with `wstandout`, which replaces the plane colour,
+  leaving them black on black in reverse; and `wstandend` then dropped the
+  colour for the planes after them. Marked planes now just turn reverse
+  video on and off (`atc/graphics.c`).
 
 ## Packaging (new files)
 

@@ -103,13 +103,13 @@ static void draw_radar (void)
     // Draw planes on radar
     wcolor_set (_wradar, color_Planes, NULL);
     vector_foreach (const struct Plane, p, _air) {
-	if (p->status == S_MARKED)
-	    wstandout (_wradar);
+	if (p->status == S_MARKED)	// reverse, keeping the plane colour
+	    wattr_on (_wradar, A_REVERSE, NULL);
 	char planetagbuf[8];
 	ssize_t ptbs = snprintf (planetagbuf, sizeof(planetagbuf), "%c%hu", plane_name(p), p->altitude);
 	mvwaddnstr (_wradar, p->ypos, p->xpos*2, planetagbuf, min_i (ptbs, getmaxx(_wradar)-p->xpos*2));
 	if (p->status == S_MARKED)
-	    wstandend (_wradar);
+	    wattr_off (_wradar, A_REVERSE, NULL);
     }
     wnoutrefresh (_wradar);
 }
