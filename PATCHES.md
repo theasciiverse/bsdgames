@@ -72,3 +72,9 @@ and caesar because they are not games.
 - `.github/workflows/release.yml`: static Linux builds in Alpine (x86_64,
   aarch64) and macOS (x86_64, arm64), plus SHA256SUMS, on a tag. No
   Windows build yet.
+
+## Ours
+
+- **How to play it, at the top of README.md.** A short note on installing and
+  starting it with av, or from a release archive; the original text follows
+  unchanged.

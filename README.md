@@ -1,3 +1,31 @@
+> **Play it with Asciiverse.** With [av](https://asciiverse.sh), the Asciiverse
+> client:
+>
+> Each game installs on its own:
+>
+> | Game | With av | From a release archive |
+> |---|---|---|
+> | ATC | `av install atc` | `./atc` |
+> | Battlestar | `av install battlestar` | `./battlestar` |
+> | Cribbage | `av install cribbage` | `./cribbage` |
+> | Dots and Boxes | `av install dab` | `./dab` |
+> | Drop4 | `av install drop4` | `./drop4` |
+> | Go Fish | `av install gofish` | `./gofish` |
+> | Gomoku | `av install gomoku` | `./gomoku` |
+> | Hangman | `av install hangman` | `./hangman` |
+> | Klondike | `av install klondike` | `./klondike` |
+> | Robots | `av install robots` | `./robots` |
+> | Sail | `av install sail` | `./sail` |
+> | Snake | `av install snake` | `./snake` |
+> | Space Pirate Hunt | `av install spirhunt` | `./spirhunt` |
+> | Worm | `av install worm` | `./worm` |
+> | Hunt the Wumpus | `av install wump` | `./wump` |
+>
+> Start one with `av play <name>`, or download its archive for your system from
+> this repository's Releases and run it from there (`.exe` on Windows).
+>
+> The original README follows.
+
 # BSD-GAMES
 
 This is the bsd-games package for Linux, containing classic text mode
