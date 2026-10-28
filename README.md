@@ -21,8 +21,7 @@
 > | Worm | `av install worm` | `./worm` |
 > | Hunt the Wumpus | `av install wump` | `./wump` |
 >
-> Start one with `av play <name>`, or download its archive for your system from
-> this repository's Releases and run it from there.
+> Start one with `av play <name>`.
 >
 > The original README follows.
 
