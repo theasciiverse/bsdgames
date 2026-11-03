@@ -15,7 +15,7 @@ name: release
 
 on:
   push:
-    tags: ["*"]
+    tags: ["v*-av.*"]
   workflow_dispatch:
     inputs:
       tag:
@@ -75,7 +75,7 @@ jobs:
 
       - name: Build and package
         run: |
-          LIBS=-lncurses CFLAGS="-arch ${{ matrix.arch }} -D_XOPEN_SOURCE_EXTENDED" LDFLAGS="-arch ${{ matrix.arch }}" asciiverse/build.sh
+          LIBS=-lncurses CFLAGS="-arch ${{ matrix.arch }} -D_XOPEN_SOURCE_EXTENDED -D_DARWIN_C_SOURCE -D_FORTIFY_SOURCE=0" LDFLAGS="-arch ${{ matrix.arch }}" asciiverse/build.sh
           file out/gomoku
           asciiverse/package.sh ${{ matrix.target }}
 

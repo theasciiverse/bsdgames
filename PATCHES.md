@@ -70,8 +70,12 @@ and caesar because they are not games.
   and one driver per game that plays it for its cast in
   `asciiverse/casts/`, reading the screen through pyte.
 - `.github/workflows/release.yml`: static Linux builds in Alpine (x86_64,
-  aarch64) and macOS (x86_64, arm64), plus SHA256SUMS, on a tag. No
-  Windows build yet.
+  aarch64) and macOS (x86_64, arm64), plus SHA256SUMS, on one of our
+  `v*-av.*` tags. No Windows build yet. macOS builds with
+  `_DARWIN_C_SOURCE` (common.h asks for POSIX 2008, which on macOS hides
+  `flock()`) and without `_FORTIFY_SOURCE` (macOS's fortified
+  `snprintf()` is a macro, and `ArrayBlock()` hands it two arguments in
+  one).
 
 ## Ours
 
